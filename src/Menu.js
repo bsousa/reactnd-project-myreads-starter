@@ -1,6 +1,11 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
 class Menu extends Component {
+    static propTypes = {
+        livro: PropTypes.object.isRequired,
+        atualizaLivro: PropTypes.func.isRequired,
+    }
     handleSubmit = (e) => {
         this.props.atualizaLivro(this.props.livro, e.target.value)
         this.setState({optionsState: e.target.value});

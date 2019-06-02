@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import ListaLivros from './ListaLivros'
 import * as BooksAPI from './BooksAPI'
-
+import PropTypes from 'prop-types'
 import { DebounceInput } from 'react-debounce-input';
 
 class Busca extends Component {
+  static propTypes = {
+    atualizaLivro: PropTypes.func.isRequired,
+  }  
   state = {
     query: '',
     livros: []
@@ -17,11 +20,10 @@ class Busca extends Component {
 
   buscaLivros = (query) => {
     this.setState(() => ({
-      query: query.trim()
+      query: query
     }))
     BooksAPI.search(query)
       .then((resultadobusca) => {
-        console.log(resultadobusca)
         if (resultadobusca !== undefined && resultadobusca.items === undefined) {
           this.setState(livros => ({
             livros: resultadobusca.map(b => {
@@ -51,7 +53,7 @@ class Busca extends Component {
           <div className="search-books-input-wrapper">
             <DebounceInput
               minLength={2}
-              debounceTimeout={250}
+              debounceTimeout={150}
               type='text'
               placeholder='Search by title or author'
               value={query}
@@ -64,7 +66,6 @@ class Busca extends Component {
             <ListaLivros
               atualizaLivro={this.props.atualizaLivro}
               livros={livros}
-              estante={this.props.estante}
             />
           )}
         </div>
