@@ -21,7 +21,8 @@ class Busca extends Component {
     }))
     BooksAPI.search(query)
       .then((resultadobusca) => {
-        if (resultadobusca !== undefined) {
+        console.log(resultadobusca)
+        if (resultadobusca !== undefined && resultadobusca.items === undefined) {
           this.setState(livros => ({
             livros: resultadobusca.map(b => {
               let li = this.buscaLivroEstante(b.id)
